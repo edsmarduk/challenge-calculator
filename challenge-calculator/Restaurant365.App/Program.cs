@@ -18,6 +18,7 @@ namespace Restaurant365.App
             calculator.Delimiters.Add(",");
             calculator.Delimiters.Add("\n");
             calculator.Delimiters.Add("abc");
+            calculator.DenyNegativeNumber = true;
 
             ///Windows closes console apps when you press ctrl-c
             while (true)

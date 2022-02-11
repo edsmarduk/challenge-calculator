@@ -20,10 +20,18 @@ namespace Restaurant365.Core
             _delimiters = new List<string>();
         }
 
+        /// <summary>
+        /// List of delimiters
+        /// </summary>
         public List<string> Delimiters
         {
             get { return _delimiters; }
         }
+
+        /// <summary>
+        /// Gets or sets whether to allow negative numbers
+        /// </summary>
+        public bool DenyNegativeNumber { get; set; }
 
         /// <summary>
         /// Delimits an input into an array of strings
@@ -88,6 +96,9 @@ namespace Restaurant365.Core
             for(int i = 0; i < values.Length; i++)
             {
                 int value = values[i];
+
+                if (DenyNegativeNumber && value < 0)
+                    throw new ArgumentOutOfRangeException("value", "Values cannot be negative when DenyNegativeNumber is set to true.");
 
                 //add the parsed value to the formula
                 formula.Append(value);

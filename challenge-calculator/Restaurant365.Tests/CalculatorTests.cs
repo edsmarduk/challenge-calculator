@@ -11,6 +11,26 @@ namespace Restaurant365.Tests
         /// Testing blank input. Should throw an exception
         /// </summary>
         [TestMethod]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void TestNegativeInput()
+        {
+            NullLogger logger = new NullLogger();
+            Calculator calculator = new Calculator(logger);
+
+            calculator.DenyNegativeNumber = true;
+            calculator.Delimiters.Add(",");
+            calculator.Delimiters.Add("\n");
+            calculator.Delimiters.Add("abc");
+
+            //test for blank, should fail
+            calculator.Add("10,-5,100");
+
+        }
+
+        /// <summary>
+        /// Testing blank input. Should throw an exception
+        /// </summary>
+        [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
         public void TestBlankInput()
         {
