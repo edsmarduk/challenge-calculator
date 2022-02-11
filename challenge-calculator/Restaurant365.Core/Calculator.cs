@@ -18,6 +18,7 @@ namespace Restaurant365.Core
 
             _logger = logger;
             _delimiters = new List<string>();
+            UpperLimit = int.MaxValue;
         }
 
         /// <summary>
@@ -32,6 +33,11 @@ namespace Restaurant365.Core
         /// Gets or sets whether to allow negative numbers
         /// </summary>
         public bool DenyNegativeNumber { get; set; }
+
+        /// <summary>
+        /// The upper limit for individual inputs.
+        /// </summary>
+        public int UpperLimit { get; set; }
 
         /// <summary>
         /// Delimits an input into an array of strings
@@ -99,6 +105,9 @@ namespace Restaurant365.Core
 
                 if (DenyNegativeNumber && value < 0)
                     throw new ArgumentOutOfRangeException("value", "Values cannot be negative when DenyNegativeNumber is set to true.");
+
+                if (value > UpperLimit)
+                    value = 0;
 
                 //add the parsed value to the formula
                 formula.Append(value);

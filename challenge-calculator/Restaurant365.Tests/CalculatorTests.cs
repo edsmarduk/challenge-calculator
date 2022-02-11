@@ -76,8 +76,10 @@ namespace Restaurant365.Tests
             Assert.AreEqual(5, calculator.Add("5,tytyt"));
             Assert.AreEqual(78, calculator.Add("1,2,3,4,5,6,7,8,9,10,11,12"));
             Assert.AreEqual(6, calculator.Add("1\n2,3"));
-
             Assert.AreEqual(6, calculator.Add("1abc2,3"));
+
+            calculator.UpperLimit = 1000;
+            Assert.AreEqual(8, calculator.Add("2,1001,6"));
         }
     }
 }
