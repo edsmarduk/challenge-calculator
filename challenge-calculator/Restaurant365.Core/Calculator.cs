@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Restaurant365.Core
@@ -9,14 +10,19 @@ namespace Restaurant365.Core
     public class Calculator
     {
         private readonly ILogger _logger;
-        private readonly string _delimiter;
+        private readonly List<string> _delimiters;
 
         public Calculator(ILogger logger)
         {
             if (logger == null) throw new ArgumentNullException(nameof(logger));
 
             _logger = logger;
-            _delimiter = ",";
+            _delimiters = new List<string>();
+        }
+
+        public List<string> Delimiters
+        {
+            get { return _delimiters; }
         }
 
         /// <summary>
@@ -27,9 +33,14 @@ namespace Restaurant365.Core
         /// <exception cref="ArgumentNullException">Input is required</exception>
         private string[] DelimitInput(string input)
         {
-            if (string.IsNullOrEmpty(input)) throw new ArgumentNullException(nameof(input));
+            string pattern = String.Join("|",_delimiters.ToArray());
 
-            return input.Split(_delimiter.ToCharArray());
+            if (string.IsNullOrEmpty(input)) throw new ArgumentNullException(nameof(input));
+            if (string.IsNullOrEmpty(pattern)) throw new ArgumentNullException(nameof(pattern));
+
+            _logger.WriteLine("Delimiter:" + pattern);
+
+            return Regex.Split(input, pattern);
 
         }
 

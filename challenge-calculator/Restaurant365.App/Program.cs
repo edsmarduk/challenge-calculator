@@ -15,6 +15,10 @@ namespace Restaurant365.App
             ConsoleLogger logger = new ConsoleLogger();
             Calculator calculator = new Calculator(logger);
 
+            calculator.Delimiters.Add(",");
+            calculator.Delimiters.Add("\n");
+            calculator.Delimiters.Add("abc");
+
             ///Windows closes console apps when you press ctrl-c
             while (true)
             {
