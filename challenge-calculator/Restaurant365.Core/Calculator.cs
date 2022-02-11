@@ -70,9 +70,7 @@ namespace Restaurant365.Core
 
             int[] values = DelimitInputToInt(input);
 
-            //Requirement 1. Limit to 2 inputs
-            if (values.Length > 2)
-                throw new ArgumentException("Maximum input of 2 numbers");
+            //Removed the requirement for maximum constraint
 
 
             //loop through all of the values that were parsed

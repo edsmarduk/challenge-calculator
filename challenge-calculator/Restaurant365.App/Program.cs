@@ -21,7 +21,7 @@ namespace Restaurant365.App
                 try
                 {
                     //set up the screen for the user
-                    Console.Write("Enter Formula:");
+                    Console.Write("Enter List:");
 
                     //retrieve the input from the user
                     string input = Console.ReadLine();
