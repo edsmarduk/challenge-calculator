@@ -65,7 +65,13 @@ namespace Restaurant365.Tests
         {
             NullLogger logger = new NullLogger();
             Calculator calculator = new Calculator(logger);
-            
+
+            //custom delimiters
+            Assert.AreEqual(7, calculator.Add("//#\n2#5"));
+            Assert.AreEqual(102, calculator.Add("//,\n2,ff,100"));
+
+            calculator.Delimiters.Clear();
+
             calculator.Delimiters.Add(",");
             calculator.Delimiters.Add("\n");
             calculator.Delimiters.Add("abc");
@@ -80,6 +86,8 @@ namespace Restaurant365.Tests
 
             calculator.UpperLimit = 1000;
             Assert.AreEqual(8, calculator.Add("2,1001,6"));
+
+
         }
     }
 }

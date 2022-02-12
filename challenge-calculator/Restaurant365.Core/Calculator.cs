@@ -65,6 +65,7 @@ namespace Restaurant365.Core
         /// <returns>array of integers</returns>
         private int[] DelimitInputToInt(string input)
         {
+            input = DetectDelimiterInInput(input);
             string[] values = DelimitInput(input);
             int[] result = new int[values.Length];
             
@@ -78,6 +79,28 @@ namespace Restaurant365.Core
             }
 
             return result;
+        }
+
+        protected string DetectDelimiterInInput(string input)
+        {
+            string output = input;
+
+            if (!string.IsNullOrEmpty(input))
+            {
+                //check for custom delimiter at start of string
+                if (input.StartsWith("//"))
+                {
+                    Delimiters.Clear();
+
+                    string delimiter = input.Substring(2, 1);
+                    output = input.Substring(4);
+                    
+                    Delimiters.Add(delimiter);
+                }
+            }
+
+
+            return output;
         }
 
         /// <summary>
