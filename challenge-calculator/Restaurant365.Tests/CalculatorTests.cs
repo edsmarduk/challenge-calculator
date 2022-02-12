@@ -67,6 +67,7 @@ namespace Restaurant365.Tests
             Calculator calculator = new Calculator(logger);
 
             //custom delimiters
+            Assert.AreEqual(66, calculator.Add("//[***]\n11***22***33"));
             Assert.AreEqual(7, calculator.Add("//#\n2#5"));
             Assert.AreEqual(102, calculator.Add("//,\n2,ff,100"));
 
