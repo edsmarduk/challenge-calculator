@@ -47,12 +47,14 @@ namespace Restaurant365.Core
         /// <exception cref="ArgumentNullException">Input is required</exception>
         private string[] DelimitInput(string input)
         {
-            string pattern = String.Join("|",_delimiters.ToArray());
+            //we need to escape delimiters because they can be regex special characters
+            string pattern = String.Join("|",_delimiters.Select(x=>Regex.Escape(x).Replace(@"\\",@"\")));
 
             if (string.IsNullOrEmpty(input)) throw new ArgumentNullException(nameof(input));
             if (string.IsNullOrEmpty(pattern)) throw new ArgumentNullException(nameof(pattern));
 
-            _logger.WriteLine("Delimiter:" + pattern);
+            _logger.WriteLine("Delimiter:" + pattern);           
+
 
             return Regex.Split(input, pattern);
 
@@ -83,6 +85,10 @@ namespace Restaurant365.Core
 
         protected string DetectDelimiterInInput(string input)
         {
+            //the delimiter could be a special character in regex. 
+            //need to escape all special characters
+            //needs to be backwards compatable with string that uses the old format of //{delimiter}\n{numbers}
+
             string output = input;
 
             if (!string.IsNullOrEmpty(input))
@@ -92,10 +98,27 @@ namespace Restaurant365.Core
                 {
                     Delimiters.Clear();
 
-                    string delimiter = input.Substring(2, 1);
-                    output = input.Substring(4);
-                    
-                    Delimiters.Add(delimiter);
+                    if (input.StartsWith("//[")) //new format
+                    {
+                        int endingIndex = input.IndexOf("]\n");
+
+                        string delimiterString = input.Substring(0, endingIndex + 1);
+                        output = input.Substring(endingIndex + 2);
+
+                        MatchCollection matches = Regex.Matches(delimiterString, @"\[(.*?)\]");
+
+                        foreach(Match match in matches)
+                        {
+                            Delimiters.Add(match.Groups[1].Value);
+                        }
+                    }
+                    else //old format
+                    {
+                        string delimiter = input.Substring(2, 1);
+                        output = input.Substring(4);
+
+                        Delimiters.Add(delimiter);
+                    }
                 }
             }
 
