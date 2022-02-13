@@ -83,6 +83,11 @@ namespace Restaurant365.Core
             return result;
         }
 
+        /// <summary>
+        /// Detect if the opening of input is a string that defines the delimiters
+        /// </summary>
+        /// <param name="input">The string that holds the data and possible delimiters</param>
+        /// <returns>Returns a clean string while adding the delimiters to the Delimiters field</returns>
         protected string DetectDelimiterInInput(string input)
         {
             //the delimiter could be a special character in regex. 
@@ -107,7 +112,7 @@ namespace Restaurant365.Core
 
                         MatchCollection matches = Regex.Matches(delimiterString, @"\[(.*?)\]");
 
-                        foreach(Match match in matches)
+                        foreach (Match match in matches)
                         {
                             Delimiters.Add(match.Groups[1].Value);
                         }
